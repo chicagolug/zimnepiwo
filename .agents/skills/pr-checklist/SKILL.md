@@ -1,12 +1,12 @@
 ---
-name: finpilot-pr-checklist
+name: pr-checklist
 description: >-
   PR gates and pre-commit checklist by change type. Covers validation commands
   for Containerfile, build scripts, Brewfiles, Flatpaks, ujust, workflows, and
   README changes. Use before opening or reviewing a PR.
 ---
 
-# finpilot PR Checklist
+# zimnepiwo PR Checklist
 
 ## When to Use
 
@@ -18,7 +18,7 @@ description: >-
 ## When NOT to Use
 
 - The PR only contains documentation changes without affecting build/CI — still run markdown lint, but full checklist is overkill
-- You are troubleshooting an already-open PR — use `finpilot-troubleshooting`
+- You are troubleshooting an already-open PR — use `troubleshooting`
 
 ## Core Process
 
@@ -129,8 +129,8 @@ just --list
 
 | Check                        | Command                                                                |
 | ---------------------------- | ---------------------------------------------------------------------- |
-| Syntax validation            | `just --list`                                                          |
-| Specific file check          | `just --unstable --fmt --check -f custom/ujust/your-file.just`         |
+| Format/syntax check (CI)     | `just --unstable --fmt --check -f custom/ujust/your-file.just`         |
+| List recipes                 | `just --list`                                                          |
 | No `dnf5`/`dnf`/`rpm-ostree` | `grep -E "dnf|rpm-ostree" custom/ujust/*.just` (should return nothing) |
 
 **CI triggers:** `validate-justfiles.yml`

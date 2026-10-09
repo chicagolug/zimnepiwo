@@ -1,24 +1,24 @@
 ---
-name: finpilot-overview
+name: overview
 description: >-
-  Architecture, repo layout, and factory role for the finpilot template.
+  Architecture, repo layout, and factory role for zimnepiwo.
   Use when orienting to the repository, understanding how it relates to
-  projectbluefin/actions, or before picking a skill with finpilot-router.
+  projectbluefin/actions, or before picking a skill with router.
 ---
 
-# finpilot Overview
+# zimnepiwo Overview
 
 ## When to Use
 
 - Starting a new session in this repo
-- Explaining how finpilot relates to bluefin/aurora/dakota
-- Orienting before using `finpilot-router` to pick a skill
+- Explaining how zimnepiwo relates to bluefin/aurora/dakota
+- Orienting before using `router` to pick a skill
 - Onboarding a new contributor or agent
 
 ## When NOT to Use
 
 - You already know the area — use the relevant skill directly
-- You need specific build or CI mechanics — use `finpilot-build` or `finpilot-ci`
+- You need specific build or CI mechanics — use `build` or `ci`
 
 ## Core Process
 
@@ -29,7 +29,7 @@ description: >-
 
 ## Architecture
 
-finpilot is a **bootc image template** following the Bluefin multi-stage build architecture:
+zimnepiwo is a **bootc custom image**, created from an upstream image template and following the Bluefin multi-stage build architecture:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -73,7 +73,7 @@ finpilot is a **bootc image template** following the Bluefin multi-stage build a
 
 ## Factory Role
 
-finpilot is the **upstream template** for community custom images. It is not a factory
+zimnepiwo is a **community custom image** derived from an upstream template. It is not a factory
 pipeline repo itself, but it adopts the same composite workflow actions as bluefin/dakota:
 
 - CI uses `projectbluefin/actions/bootc-build/*` composite actions
@@ -86,7 +86,7 @@ pipeline repo itself, but it adopts the same composite workflow actions as bluef
 
 ## Task Router
 
-The canonical task → skill routing table lives in the `finpilot-router` skill —
+The canonical task → skill routing table lives in the `router` skill —
 load it when you don't know which skill covers a task.
 
 ## Scope Rules
@@ -123,7 +123,7 @@ To keep changes minimal and safe:
 
 ## Red Flags
 
-- Making Containerfile changes without using `finpilot-build`
+- Making Containerfile changes without using `build`
 - Adding a workflow without verifying the `projectbluefin/actions` composite action exists
 - Updating pinned `@sha256:...` digests in `Containerfile` manually instead of letting Renovate do it
 

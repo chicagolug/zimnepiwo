@@ -1,17 +1,17 @@
 ---
-name: finpilot-onboarding
+name: onboarding
 description: >-
-  Fork bootstrap playbook: rename (locations: `finpilot-templates`),
+  Fork bootstrap playbook: rename (locations: `templates`),
   enable Actions, RENOVATE_TOKEN, first green build, README "What Makes
   this Raptor Different" section, and branch protection. Use when creating
   a new fork from this template.
 ---
 
-# finpilot Onboarding
+# zimnepiwo Onboarding
 
 ## When to Use
 
-- Creating a new fork from the finpilot template
+- Creating a new fork from the upstream template
 - Bootstrapping a new bootc-based custom image repository
 - Setting up GitHub Actions, Renovate, and branch protection for the first time
 - Onboarding a new contributor who needs to understand the fork-to-first-build pipeline
@@ -19,30 +19,30 @@ description: >-
 ## When NOT to Use
 
 - The repository is already initialized and has had a successful build
-- You are adding packages or changing build logic — use `finpilot-packages` or `finpilot-build`
-- You are updating CI workflows — use `finpilot-ci`
+- You are adding packages or changing build logic — use `packages` or `build`
+- You are updating CI workflows — use `ci`
 
 ## Core Process
 
 1. **Fork the template**: Use "Use this template" on GitHub to create a new repository
-2. **Rename all 7 locations** (table: `finpilot-templates`)
+2. **Rename all 7 locations** (table: `templates`)
 3. **Enable GitHub Actions** in the new repository
-4. **Add `RENOVATE_TOKEN` secret** (Classic PAT with `repo` + `workflow` scopes)
+4. **Add `RENOVATE_TOKEN` secret** (the approved **Classic PAT** with `repo` + `workflow` scopes)
 5. **Configure branch protection and auto-merge**
 6. **Trigger first build**
 7. **Add the "What Makes this Raptor Different" section to README** (template below)
-8. **Verify signing** on the first signed build (`finpilot-templates`)
+8. **Verify signing** on the first signed build (`templates`)
 
 Keep day-one changes minimal and iterate in phases:
 
 1. **Phase 1 — Bootstrap**: rename, enable Actions, add `RENOVATE_TOKEN`,
    trigger the first green build (this skill)
 2. **Phase 2 — Customize**: add one or two packages, run `just build` locally
-   (`finpilot-packages`, `finpilot-build`)
+   (`packages`, `build`)
 3. **Phase 3 — Runtime**: add Flatpak/Brew customizations, test in a VM with
-   `just run-vm-qcow2` (`finpilot-custom`)
+   `just run-vm-qcow2` (`custom`)
 4. **Phase 4 — Production**: verify signing, full branch protection
-   (`finpilot-templates`, `finpilot-maintain`)
+   (`templates`, `maintain`)
 
 Resist changing everything at once — each phase validates the previous.
 
@@ -56,7 +56,7 @@ Each step's completion criterion is the matching item in the Verification checkl
 
 ## Add RENOVATE_TOKEN Secret
 
-1. Generate a **Classic Personal Access Token (PAT)** with these scopes: `repo`, `workflow`
+1. Generate the approved **Classic Personal Access Token (PAT)** with these scopes: `repo`, `workflow`
 2. In your fork: **Settings → Secrets and variables → Actions → New repository secret**
 3. Name: `RENOVATE_TOKEN`
 4. Value: the PAT token string
@@ -99,7 +99,7 @@ step 3). The `promote-main-to-stable.yml` workflow then automates releases:
    `release/blocked`
 
 Full requirements live in `SETUP_CHECKLIST.md` → step 3; promotion mechanics
-in `finpilot-ci`.
+in `ci`.
 
 ## First Green Build
 
@@ -146,12 +146,12 @@ _Last updated: [date]_
 ```
 
 **Maintenance requirement**: update this section on every package or
-configuration change — see the update rules in `finpilot-maintain`.
+configuration change — see the update rules in `maintain`.
 
 ## Signing
 
 No setup required — first builds publish signed images. Verification details:
-`finpilot-templates`.
+`templates`.
 
 ## Common Rationalizations
 
@@ -161,11 +161,11 @@ No setup required — first builds publish signed images. Verification details:
 | "I don't need branch protection for a personal fork."          | Without it, Renovate auto-merge won't work, and digest PRs sit unmerged.                                   |
 | "I'll add the raptor section to README after I have packages." | Add the section immediately with placeholders. Update it iteratively.                                      |
 | "Signing is too much work for a first build."                  | Nothing to configure — builds sign images automatically.                                                   |
-| "I'll use my fine-grained PAT for Renovate."                   | Renovate requires a **Classic PAT** with `repo` + `workflow` scopes. Fine-grained PATs do not work.        |
+| "I'll use my fine-grained PAT for Renovate."                   | Use the approved **Classic PAT** with `repo` + `workflow` scopes. Fine-grained tokens are not supported.  |
 
 ## Red Flags
 
-- Fork repo still has `finpilot` in any of the 7 locations
+- Fork repo still has the template's placeholder name in any of the 7 locations
 - `RENOVATE_TOKEN` not set but Renovate workflow is enabled (fails silently or errors on first run)
 - `cosign.pub` or `cosign.key` added to the repo
 - Auto-merge not enabled, causing Renovate digest PRs to sit unmerged

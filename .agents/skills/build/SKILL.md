@@ -6,7 +6,7 @@ description: >-
   Use when changing Containerfile, Justfile, or build/*.sh.
 ---
 
-# finpilot Build System
+# zimnepiwo Build System
 
 ## When to Use
 
@@ -69,18 +69,11 @@ release, update both the `FEDORA_MAJOR_VERSION` ARG and the base image tag.
 
 ### NVIDIA GPU support
 
-NVIDIA support is a build-time option activated by renaming the example script and adding its explicit Containerfile `RUN` block:
-
-```bash
-mv build/40-nvidia.sh.example build/40-nvidia.sh
-# Add the standard RUN block for /ctx/build/40-nvidia.sh after 10-build.sh.
-# See build/README.md.
-just build
-```
-
-All NVIDIA logic is self-contained in `40-nvidia.sh`. When both the script and its explicit Containerfile `RUN` block are activated, it provisions the NVIDIA driver, CDI container toolkit, Mutter kms-modifiers, and bootc kernel args directly into the base image — no separate image variant, no `IMAGE_NAME` gating.
-
-Deactivate by removing its Containerfile `RUN` block and renaming the script back to `.example`. See `build/40-nvidia.sh.example` for the full implementation.
+NVIDIA is a build-time option activated from `build/40-nvidia.sh.example`.
+All NVIDIA logic is self-contained in that script — no separate image variant
+and no `IMAGE_NAME` gating. The canonical activation/deactivation procedure and
+what the script provisions live in `examples`; apply the script-numbering and
+mounted-`RUN`-block conventions described above.
 
 ### 00-image-info.sh branding
 
@@ -89,7 +82,7 @@ The comment in the `os-release` append block must use `${IMAGE_NAME}`:
 ```bash
 cat >> "${OS_RELEASE}" << EOF
 
-# ${IMAGE_NAME} image identity   ← use variable, not literal "finpilot"
+# ${IMAGE_NAME} image identity   ← use variable, not literal "zimnepiwo"
 VARIANT_ID="${IMAGE_FLAVOR}"
 ...
 EOF
@@ -119,7 +112,7 @@ The major version is controlled by the `FEDORA_MAJOR_VERSION` ARG and the `FROM`
 - `FROM ${FOO}@${BAR}` where `BAR` could be empty
 - `dnf`, `yum`, or `rpm-ostree` in any build script
 - COPR left enabled after package install (missing `dnf5 copr disable`)
-- `# finpilot image identity` hardcoded instead of `# ${IMAGE_NAME} image identity`
+- `#  image identity` hardcoded instead of `# ${IMAGE_NAME} image identity`
 
 ## Verification
 

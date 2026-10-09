@@ -1,12 +1,12 @@
 ---
-name: finpilot-ci
+name: ci
 description: >-
   GitHub Actions workflows, projectbluefin/actions composite actions,
-  Renovate configuration, and PR validation for finpilot.
+  Renovate configuration, and PR validation for zimnepiwo.
   Use when changing .github/workflows/, .github/renovate.json, or .hadolint.yaml.
 ---
 
-# finpilot CI
+# CI
 
 ## When to Use
 
@@ -18,8 +18,8 @@ description: >-
 
 ## When NOT to Use
 
-- Containerfile / Justfile / build script changes — use `finpilot-build`
-- Runtime customisations — use `finpilot-custom`
+- Containerfile / Justfile / build script changes — use `build`
+- Runtime customisations — use `custom`
 
 ## Core Process
 
@@ -31,18 +31,18 @@ description: >-
 
 ## Workflow Map
 
-| File                          | Trigger                           | Purpose                                                       |
-| ----------------------------- | --------------------------------- | ------------------------------------------------------------- |
-| `build-image.yml`             | push main + stable, manual        | Publish `:stable-testing` (main) or `:stable` (stable)        |
-| `promote-main-to-stable.yml`  | push main, manual                 | Squash promotion PR `main` → `stable` via factory reusable    |
-| `sync-stable-to-main.yml`     | push stable                       | Merge direct `stable` hotfixes back to `main` (usually no-op) |
-| `pr-validation.yml`           | PR → main                         | shellcheck + hadolint + pre-commit via `validate-pr`          |
-| `renovate.yml`                | schedule 6h, push renovate config | Self-hosted Renovate runner                                   |
-| `clean.yml`                   | schedule weekly                   | Delete GHCR images older than 90 days                         |
-| `validate-brewfiles.yml`      | PR paths: `custom/brew/**`        | Homebrew Brewfile syntax check                                |
-| `validate-flatpaks.yml`       | PR paths: `custom/flatpaks/**`    | Flathub app ID existence check                                |
-| `validate-justfiles.yml`      | PR paths: `Justfile`              | `just --list` syntax check                                    |
-| `validate-renovate.yml`       | PR paths: `.github/renovate.json` | `renovate-config-validator`                                   |
+| File                          | Trigger                                              | Purpose                                                       |
+| ----------------------------- | ---------------------------------------------------- | ------------------------------------------------------------- |
+| `build-image.yml`             | push main + stable, manual                           | Publish `:stable-testing` (main) or `:stable` (stable)        |
+| `promote-main-to-stable.yml`  | push main, manual                                    | Squash promotion PR `main` → `stable` via factory reusable    |
+| `sync-stable-to-main.yml`     | push stable                                          | Merge direct `stable` hotfixes back to `main` (usually no-op) |
+| `pr-validation.yml`           | PR → main + stable, merge_group                       | shellcheck + hadolint + pre-commit via `validate-pr`          |
+| `renovate.yml`                | schedule 6h, push renovate config                    | Self-hosted Renovate runner                                   |
+| `clean.yml`                   | schedule weekly                                      | Delete GHCR images older than 90 days                         |
+| `validate-brewfiles.yml`      | PR paths: `custom/brew/**`                           | Homebrew Brewfile syntax check                                |
+| `validate-flatpaks.yml`       | PR paths: `custom/flatpaks/**`                       | Flathub app ID existence check                                |
+| `validate-justfiles.yml`      | PR paths: `Justfile`, `custom/ujust/**`              | `just --unstable --fmt --check` validation                    |
+| `validate-renovate.yml`       | PR/push paths: `.github/renovate.json`, `renovate.yml` | `renovate-config-validator`                                 |
 
 ## Branch Promotion and Tags
 
@@ -87,7 +87,7 @@ Set `ENABLE_RECHUNKING: "true"` in `build-image.yml` to enable the existing
 than commenting it out so Renovate continues to update its SHA.
 
 The action is OCI-native and does not use `/usr/libexec/bootc-base-imagectl`.
-Finpilot's default Fedora Silverblue image follows the RPM path, where chunkah
+This project's default Fedora Silverblue image follows the RPM path, where chunkah
 discovers components from the RPM database.
 
 Rechunking is not a drop-in switch after replacing the default base with a
@@ -164,15 +164,15 @@ to users' machines.
 
 All OCI image digests are pinned inline in `Containerfile` `FROM` lines and
 tracked by Renovate's built-in `dockerfile` manager — pinning pattern:
-`finpilot-build`.
+`build`.
 
 When Renovate updates a digest it opens a PR that changes only the relevant
 `Containerfile` line. The next CI build uses it directly.
 
 ## Renovate Workflow Requirements
 
-The self-hosted Renovate runner requires a `RENOVATE_TOKEN` (Classic PAT with
-`repo` + `workflow` scopes; creation: `finpilot-onboarding`). The
+The self-hosted Renovate runner requires a `RENOVATE_TOKEN` (the approved
+**Classic PAT** with `repo` + `workflow` scopes; creation: `onboarding`). The
 `check-token-health` composite action validates it at the start of the workflow,
 so a missing or expired token fails the workflow **before** running Renovate —
 not midway through.

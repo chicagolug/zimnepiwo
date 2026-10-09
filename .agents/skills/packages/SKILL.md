@@ -1,12 +1,12 @@
 ---
-name: finpilot-packages
+name: packages
 description: >-
-  Decision tree for where to add packages in finpilot. Maps requests to the
+  Decision tree for where to add packages in zimnepiwo. Maps requests to the
   correct file and install method: build-time dnf5, runtime Brewfile, or
   runtime Flatpak. Use when deciding how to add a new package or tool.
 ---
 
-# finpilot Package Decision Tree
+# zimnepiwo Package Decision Tree
 
 ## When to Use
 
@@ -18,7 +18,7 @@ description: >-
 ## When NOT to Use
 
 - You already know the target file and install method — go edit it directly
-- You are debugging why a package fails to install — use `finpilot-troubleshooting`
+- You are debugging why a package fails to install — use `troubleshooting`
 
 ## Core Process
 
@@ -43,7 +43,7 @@ description: >-
 | Replace desktop environment    | Remove old → install new → set default        | `build/30-*.sh` (see examples)       |
 | Switch base image              | Update `FROM` line                            | `Containerfile`                      |
 | Add OCI containers             | Uncomment/add `COPY --from=`                  | `Containerfile` ctx stage            |
-| Add NVIDIA GPU support         | Rename `40-nvidia.sh.example`, then add its RUN block after `10-build.sh` | `build/40-nvidia.sh` |
+| Add NVIDIA GPU support         | Activate `40-nvidia.sh.example` (procedure: `examples`) | `build/40-nvidia.sh` |
 
 ## Build-Time: `build/10-build.sh`
 
@@ -107,13 +107,13 @@ See `build/20-onepassword.sh.example` for a complete working example.
 
 Homebrew is for CLI tools and development environments, installed by users
 after first boot. File locations, syntax, and validation:
-`finpilot-custom`.
+`custom`.
 
 ## Runtime Flatpak: `custom/flatpaks/*.preinstall`
 
 Flatpaks are for GUI apps, installed post-first-boot (not in the ISO or
 container). INI syntax, `Branch=stable`, Flathub ID lookup, and validation:
-`finpilot-custom`.
+`custom`.
 
 ## Scope Rules
 
@@ -124,7 +124,7 @@ README edits, comments, `.gitignore`, and `custom/ujust/README.md` trigger no CI
 ### CI Tasks (Trigger Validation/Build)
 
 Which `validate-*.yml` workflow fires for your file type — see the Workflow Map
-in `finpilot-ci`.
+in `ci`.
 
 ## Common Rationalizations
 

@@ -1,19 +1,16 @@
 ---
-name: finpilot-templates
+name: templates
 description: >-
   Template identity rules: the seven rename locations, image identity ARGs,
   keyless signing, and AGENTS.md update rules. Use when renaming a fork,
   verifying or explaining signing, or updating AGENTS.md and setup docs.
-metadata:
-  context7-sources:
-    - /renovatebot/renovate
 ---
 
-# finpilot Templates & Fork Setup
+# zimnepiwo Templates & Fork Setup
 
 ## When to Use
 
-- Renaming `finpilot` in a fork (the 7 locations)
+- Renaming the image (the 7 locations)
 - Verifying or explaining keyless signing
 - Updating AGENTS.md or copilot instructions
 - Updating README.md setup sections or SETUP_CHECKLIST.md
@@ -21,9 +18,9 @@ metadata:
 
 ## When NOT to Use
 
-- First-time fork bootstrap procedure — use `finpilot-onboarding`
-- Build system changes — use `finpilot-build`
-- CI workflow changes — use `finpilot-ci`
+- First-time fork bootstrap procedure — use `onboarding`
+- Build system changes — use `build`
+- CI workflow changes — use `ci`
 
 ## Core Process
 
@@ -39,9 +36,9 @@ metadata:
 tracked dependencies, action pins, and OCI digests, but it does not synchronize
 arbitrary template structure or build logic.
 
-For an improvement that should benefit finpilot users:
+For an improvement that should benefit other users of the upstream template:
 
-1. File a scoped issue in `projectbluefin/finpilot`.
+1. File a scoped issue in the upstream template repo, `projectbluefin/finpilot`.
 2. The issue creator may select the Clanker opt-in to place their new issue in
    `3-clanker-queue`; maintainers may apply that label to any accepted issue.
 3. A Hive-connected agent works the queued issue in a focused pull request.
@@ -52,23 +49,19 @@ Review `Containerfile`, build script, and workflow changes, then port the
 needed changes deliberately through a pull request that preserves the
 derivative's customizations.
 
-## Sources
-
-- Renovate dependency-update behavior: `/renovatebot/renovate`
-
 ## The Seven Rename Locations
 
-When forking, change `finpilot` → your image name in exactly these locations:
+The image name `zimnepiwo` lives in exactly these locations; change all of them together when renaming:
 
-| #   | File                          | What to change                                                      |
-| --- | ----------------------------- | ------------------------------------------------------------------- |
-| 1   | `Containerfile`               | `ARG IMAGE_NAME="finpilot"` and `ARG IMAGE_VENDOR="projectbluefin"` |
-| 2   | `Justfile`                    | `export IMAGE_NAME := env("IMAGE_NAME", "finpilot")`                |
-| 3   | `README.md`                   | Title `# finpilot`                                                  |
-| 4   | `artifacthub-repo.yml`        | `repositoryID: finpilot`                                            |
-| 5   | `custom/ujust/README.md`      | `localhost/your-repo-name:stable` in the bootc switch example    |
-| 6   | `.github/workflows/clean.yml` | `packages: finpilot`                                                |
-| 7   | `iso/iso.toml`                | `ghcr.io/USERNAME/REPO:stable` in the bootc switch URL              |
+| #   | File                          | What to change                                                   |
+| --- | ----------------------------- | ---------------------------------------------------------------- |
+| 1   | `Containerfile`               | `ARG IMAGE_NAME="zimnepiwo"` and `ARG IMAGE_VENDOR="chicagolug"` |
+| 2   | `Justfile`                    | `export IMAGE_NAME := env("IMAGE_NAME", "zimnepiwo")`            |
+| 3   | `README.md`                   | Title `# zimnepiwo`                                              |
+| 4   | `artifacthub-repo.yml`        | `repositoryID: zimnepiwo`                                        |
+| 5   | `custom/ujust/README.md`      | `localhost/zimnepiwo:stable` in the bootc switch example         |
+| 6   | `.github/workflows/clean.yml` | `packages: zimnepiwo`                                            |
+| 7   | `iso/iso.toml`                | `ghcr.io/chicagolug/zimnepiwo:stable` in the bootc switch URL    |
 
 Missing any of these causes the image to be published or cleaned up under the wrong name.
 
@@ -83,8 +76,8 @@ GitHub's redirect.
 The Containerfile exposes these identity ARGs for downstream branding:
 
 ```dockerfile
-ARG IMAGE_NAME="finpilot"          # Your image's name (matches rename #1)
-ARG IMAGE_VENDOR="projectbluefin"  # Your GitHub org/username
+ARG IMAGE_NAME="zimnepiwo"         # Your image's name (matches rename #1)
+ARG IMAGE_VENDOR="chicagolug"      # Your GitHub org/username
 ARG UBLUE_IMAGE_TAG="stable"       # Stream name
 ARG BASE_IMAGE_NAME="silverblue"   # Base image for image-info.json
 ```
@@ -135,7 +128,7 @@ Static-key signing (`SIGNING_SECRET`) is not supported by this template.
 
 ## Red Flags
 
-- Fork repo still has `finpilot` in `clean.yml` (image cleanup will target wrong package)
+- `packages:` in `clean.yml` doesn't match the image name (image cleanup will target wrong package)
 - `cosign.pub` placeholder file added to a fork
 - AGENTS.md referencing line numbers instead of semantic identifiers
 - `## Start here` section removed or not routing tasks to Agent Skills

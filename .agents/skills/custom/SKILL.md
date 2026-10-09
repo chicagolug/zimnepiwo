@@ -1,12 +1,12 @@
 ---
-name: finpilot-custom
+name: custom
 description: >-
-  Runtime layer of finpilot: Brewfiles, Flatpaks, and ujust commands — syntax,
+  Runtime layer of zimnepiwo: Brewfiles, Flatpaks, and ujust commands — syntax,
   placement, and validation. Use when modifying custom/ or explaining the
   runtime layer to contributors.
 ---
 
-# finpilot Runtime Layer
+# zimnepiwo Runtime Layer
 
 ## When to Use
 
@@ -18,9 +18,9 @@ description: >-
 
 ## When NOT to Use
 
-- Build script changes — use `finpilot-build`
-- CI workflow changes — use `finpilot-ci`
-- Adding system packages at build-time — use `finpilot-packages`
+- Build script changes — use `build`
+- CI workflow changes — use `ci`
+- Adding system packages at build-time — use `packages`
 
 ## Core Process
 
@@ -160,7 +160,7 @@ my-custom-command:
 | -------------- | ------------------------ | --------------------------- |
 | `*.Brewfile`   | `validate-brewfiles.yml` | Syntax, package existence   |
 | `*.preinstall` | `validate-flatpaks.yml`  | App ID existence on Flathub |
-| `*.just`       | `validate-justfiles.yml` | `just --list` syntax check  |
+| `*.just`       | `validate-justfiles.yml` | `just --unstable --fmt --check` syntax check |
 
 ## Common Rationalizations
 

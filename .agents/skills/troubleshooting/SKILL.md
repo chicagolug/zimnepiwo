@@ -1,12 +1,12 @@
 ---
-name: finpilot-troubleshooting
+name: troubleshooting
 description: >-
-  Consolidated symptom-cause-fix table for finpilot. Covers local build failures,
+  Consolidated symptom-cause-fix table. Covers local build failures,
   CI failures, runtime issues, Renovate problems, COPR persistence, and ujust
   command not found. Use when something is broken and you need a quick diagnosis.
 ---
 
-# finpilot Troubleshooting
+# Troubleshooting
 
 ## When to Use
 
@@ -19,9 +19,9 @@ description: >-
 
 ## When NOT to Use
 
-- You are still setting up the fork for the first time — use `finpilot-onboarding`
-- You are deciding where to add a package — use `finpilot-packages`
-- You need to plan ongoing maintenance — use `finpilot-maintain`
+- You are still setting up the fork for the first time — use `onboarding`
+- You are deciding where to add a package — use `packages`
+- You need to plan ongoing maintenance — use `maintain`
 
 ## Core Process
 
@@ -48,7 +48,7 @@ description: >-
 
 | Symptom                                    | Cause                                              | Solution                                                                                               |
 | ------------------------------------------ | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| `nvidia-smi` not found after boot          | NVIDIA driver was not installed during build       | Rename `40-nvidia.sh.example` to `.sh`, add its RUN block after `10-build.sh`, and rebuild |
+| `nvidia-smi` not found after boot          | NVIDIA driver was not installed during build       | Activate `build/40-nvidia.sh.example` (procedure: `examples`), then rebuild |
 | NVIDIA build fails: "Signing key not found" | ublue-os/staging COPR GPG key not imported         | Add `rpm --import https://download.copr.fedorainfracloud.org/results/ublue-os/staging/pubkey.gpg` before `nvidia-install.sh` |
 | NVIDIA build fails: akmods pull fails      | Wrong `AKMODS_FLAVOR` or kernel version mismatch   | Verify `AKMODS_FLAVOR` matches your base image (`main` for stock Fedora, `coreos-stable` for bluefin kernel); check kernel version with `rpm -q kernel-core` |
 | Wayland broken on NVIDIA                   | Missing `nvidia-drm.modeset=1` or `kms-modifiers`  | Confirm `/usr/lib/bootc/kargs.d/00-nvidia.toml` exists with modeset karg; verify `kms-modifiers` was added to Mutter gschema override |
@@ -64,7 +64,7 @@ description: >-
 | PR validation fails: hadolint                                           | Dockerfile lint rule violation                                                                                                              | Check `.hadolint.yaml` for allowed suppressions, fix or document new ones                                                 |
 | PR validation fails: Brewfile                                           | Invalid Brewfile syntax                                                                                                                     | Check Ruby syntax, ensure packages exist (`brew search`)                                                                  |
 | PR validation fails: Flatpak                                            | Invalid app ID                                                                                                                              | Verify app ID exists on https://flathub.org/                                                                              |
-| PR validation fails: justfile                                           | Invalid just syntax                                                                                                                         | Run `just --list` locally to test, fix syntax                                                                             |
+| PR validation fails: justfile                                           | Invalid just syntax                                                                                                                         | Run `just --unstable --fmt --check -f custom/ujust/<file>.just` locally, fix syntax                                      |
 | CI build fails: workflow permissions                                    | Missing `id-token: write` or `packages: write`                                                                                              | Verify `.github/workflows/build-image.yml` has correct permissions                                                        |
 | CI build fails: token health                                            | `RENOVATE_TOKEN` or `GITHUB_TOKEN` invalid/expired                                                                                          | Check token expiry, verify scopes, regenerate if needed                                                                   |
 | CI build fails: signing misconfig                                       | OIDC token unavailable (self-hosted runner or restricted permissions)                                                                       | Verify `id-token: write` is granted and the runner supports OIDC; signing is `continue-on-error`, so builds still publish |
