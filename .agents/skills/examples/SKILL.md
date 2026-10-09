@@ -1,5 +1,5 @@
 ---
-name: finpilot-examples
+name: examples
 description: >-
   Index of runnable example scripts and the activation pattern. Covers
   existing .example files and how to activate them.
@@ -7,7 +7,7 @@ description: >-
   contributors.
 ---
 
-# finpilot Example Scripts
+# zimnepiwo Example Scripts
 
 ## When to Use
 
@@ -154,7 +154,7 @@ set -euo pipefail
 
 ## Link to Package Decision Tree
 
-For deciding whether to use an example script or add directly to `build/10-build.sh`, use `finpilot-packages`.
+For deciding whether to use an example script or add directly to `build/10-build.sh`, use `packages`.
 
 **Quick guide:**
 

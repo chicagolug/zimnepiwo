@@ -1,12 +1,12 @@
 ---
-name: finpilot-maintain
+name: maintain
 description: >-
-  Maintenance of an active finpilot fork: Renovate digest PRs, README raptor
+  Maintenance of zimnepiwo: Renovate digest PRs, README raptor
   section updates, signing verification, local test loops, and maintenance
   schedules. Use when maintaining a fork after onboarding.
 ---
 
-# finpilot Maintenance
+# zimnepiwo Maintenance
 
 ## When to Use
 
@@ -18,9 +18,9 @@ description: >-
 
 ## When NOT to Use
 
-- First-time fork setup — use `finpilot-onboarding`
-- Adding new packages for the first time — use `finpilot-packages`
-- Debugging a specific build failure — use `finpilot-troubleshooting`
+- First-time fork setup — use `onboarding`
+- Adding new packages for the first time — use `packages`
+- Debugging a specific build failure — use `troubleshooting`
 
 ## Core Process
 
@@ -53,7 +53,7 @@ For PRs with non-digest changes (e.g., major version bumps), review manually bef
 
 ## Update README Raptor Section
 
-The "What Makes this Raptor Different?" section in `README.md` must be updated on **every package or configuration change**. The full section template is in `finpilot-onboarding`.
+The "What Makes this Raptor Different?" section in `README.md` must be updated on **every package or configuration change**. The full section template is in `onboarding`.
 
 ### When to Update
 
@@ -79,7 +79,7 @@ typical Linux users, not developers.
 
 Keyless OIDC signing runs via the `Sign and publish` step in
 `.github/workflows/build-image.yml`. Unsigned images fail the promotion release
-gate, so leave it enabled. Full details: `finpilot-templates`.
+gate, so leave it enabled. Full details: `templates`.
 
 ## Local Test Loop
 
@@ -128,19 +128,19 @@ just run-vm-iso
 
 Direct pushes to `main` bypass validation and create untraceable changes. PRs
 trigger `pr-validation.yml` and the `validate-*.yml` checks; branch protection
-should require PRs with the `validate` status check (setup: `finpilot-onboarding`).
+should require PRs with the `validate` status check (setup: `onboarding`).
 
 ### PR Best Practices
 
 Use Conventional Commits and the change-type checklists — see
-`finpilot-pr-checklist`.
+`pr-checklist`.
 
 ## Keeping OCI Digests Current via Renovate
 
 Renovate handles digest updates automatically. It needs a valid `RENOVATE_TOKEN`
-(setup: `finpilot-onboarding`), the Renovate workflow enabled, and auto-merge for
+(setup: `onboarding`), the Renovate workflow enabled, and auto-merge for
 digest-only PRs. If Renovate stops creating PRs, run the Renovate section of
-`finpilot-troubleshooting`.
+`troubleshooting`.
 
 ## Maintenance Schedule Recommendations
 
