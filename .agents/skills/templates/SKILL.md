@@ -72,6 +72,12 @@ When forking, change `finpilot` → your image name in exactly these locations:
 
 Missing any of these causes the image to be published or cleaned up under the wrong name.
 
+The published GHCR name is **not** taken from these files: `build-image.yml`
+sets `IMAGE_NAME` from `github.event.repository.name`. Rename the GitHub
+repository to the image name first (check with `gh repo view --json name`),
+then run `git remote set-url origin` so the local remote stops relying on
+GitHub's redirect.
+
 ## Image Identity ARGs
 
 The Containerfile exposes these identity ARGs for downstream branding:
