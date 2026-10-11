@@ -67,8 +67,8 @@ git push origin main
 - [ ] Create a **Classic PAT** (Settings → Developer settings → Personal access tokens → Tokens (classic))
   - Scopes: `repo` (full control) + `workflow` (update workflows). The `repo`
     scope also grants Renovate access to repository vulnerability alerts.
-  - If using a fine-grained token instead, grant repository access plus
-    **Dependabot alerts: Read-only** and **Contents: Read and write**.
+  - The **Classic PAT** is the approved token for Renovate in this template.
+    Fine-grained tokens are not supported.
 - [ ] Add the token as repository secret **`RENOVATE_TOKEN`** (Settings → Secrets and variables → Actions)
 - [ ] Enable **Settings → General → Pull Requests → Allow auto-merge**
 - [ ] Configure branch protection for `main`:
