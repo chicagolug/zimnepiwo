@@ -46,7 +46,7 @@ This template works best with **phased prompts** that let Copilot bootstrap your
 Use this prompt first to get your fork building:
 
 ```
-Bootstrap a new custom OS from @projectbluefin/finpilot. Name it after this repository. Use the `finpilot-onboarding` skill first, then:
+Bootstrap a new custom OS from @projectbluefin/finpilot. Name it after this repository. Use the `onboarding` skill first, then:
 1. Rename `finpilot` in the 7 required files
 2. Enable GitHub Actions and set RENOVATE_TOKEN (classic PAT with `repo` +
    `workflow` scopes, or a fine-grained token with **Dependabot alerts:
@@ -62,7 +62,7 @@ Bootstrap a new custom OS from @projectbluefin/finpilot. Name it after this repo
 Once the first build is green, use this prompt to add packages:
 
 ```
-Use the `finpilot-packages` and `finpilot-custom` skills, then:
+Use the `packages` and `custom` skills, then:
 1. Add one system package to the image in `build/10-build.sh`
 2. Add one CLI tool to `custom/brew/default.Brewfile`
 3. Add one GUI app to `custom/flatpaks/default.preinstall`
@@ -77,9 +77,9 @@ Use the `finpilot-packages` and `finpilot-custom` skills, then:
 When you are ready for production, use this prompt to harden the setup:
 
 ```
-Use the `finpilot-maintain` and `finpilot-ci` skills, then:
+Use the `maintain` and `ci` skills, then:
 1. Verify keyless image signing works: cosign verify --certificate-identity-regexp="https://github.com/USER/REPO/.github/workflows/" --certificate-oidc-issuer="https://token.actions.githubusercontent.com" ghcr.io/USER/REPO:stable
-2. Follow the maintenance schedule in the `finpilot-maintain` skill
+2. Follow the maintenance schedule in the `maintain` skill
 ```
 
 ## What's Included

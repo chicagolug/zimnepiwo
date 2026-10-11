@@ -4,7 +4,7 @@
 
 ### 1. Rename Template
 
-- [ ] Update `finpilot` to your name in **7 files** (use the `finpilot-templates` skill):
+- [ ] Update `finpilot` to your name in **7 files** (use the `templates` skill):
   1. `Containerfile` — `ARG IMAGE_NAME` and `ARG IMAGE_VENDOR`
   2. `Justfile` — `export IMAGE_NAME`
   3. `README.md` — title
@@ -13,7 +13,7 @@
   6. `.github/workflows/clean.yml` — `packages`
   7. `iso/iso.toml` — bootc switch URL
 
-**Agent skills:** `finpilot-templates` (rename rules), `finpilot-onboarding` (fork bootstrap)
+**Agent skills:** `templates` (rename rules), `onboarding` (fork bootstrap)
 
 ### 2. Enable GitHub Actions
 
@@ -84,16 +84,16 @@ git push origin main
 
 Renovate targets `main`; approved changes reach `stable` through the promotion flow.
 
-**Agent skills:** `finpilot-onboarding` (branch protection), `finpilot-ci` (Renovate config)
+**Agent skills:** `onboarding` (branch protection), `ci` (Renovate config)
 
 ### 6. Add "What Makes this Raptor Different" to README
 
 - [ ] Open `README.md`
-- [ ] Paste the raptor section template (see README or use the `finpilot-onboarding` skill)
+- [ ] Paste the raptor section template (see README or use the `onboarding` skill)
 - [ ] Fill in placeholders with your planned customizations
 - [ ] Update the `*Last updated: [date]*` timestamp
 
-**Agent skills:** `finpilot-onboarding` (raptor section), `finpilot-maintain` (maintenance requirement)
+**Agent skills:** `onboarding` (raptor section), `maintain` (maintenance requirement)
 
 ### 7. Participate in finpilot maintenance
 - [ ] Use [finpilot issues](https://github.com/projectbluefin/finpilot/issues/new/choose)
@@ -137,7 +137,7 @@ To disable signing (not recommended), comment out the `Sign and publish`
 step in `.github/workflows/build-image.yml`. Unsigned images fail the
 promotion release gate (`release/blocked`).
 
-**Agent skill:** `finpilot-templates` (signing verification)
+**Agent skill:** `templates` (signing verification)
 
 ### Enable Rechunking (Optional)
 
@@ -148,7 +148,7 @@ promotion release gate (`release/blocked`).
 
 The current OCI-native chunkah action does not use `/usr/libexec/bootc-base-imagectl`. Package cadence classification is a separate advanced setup and is not required for basic rechunking.
 
-**Agent skill:** `finpilot-ci` (rechunking compatibility and workflow setup)
+**Agent skill:** `ci` (rechunking compatibility and workflow setup)
 
 ## Agent Handoff Reference
 
@@ -156,12 +156,12 @@ Which skill to load for each checklist block above:
 
 | Checklist step                        | Skill                                       |
 | ------------------------------------- | ------------------------------------------- |
-| Rename (step 1)                       | `finpilot-templates`, `finpilot-onboarding` |
-| Enable Actions (step 2)               | `finpilot-onboarding`                       |
-| Branches + promotion (step 3)         | `finpilot-onboarding`, `finpilot-ci`        |
-| Renovate + branch protection (step 5) | `finpilot-onboarding`, `finpilot-ci`        |
-| Raptor section (step 6)               | `finpilot-onboarding`, `finpilot-maintain`  |
-| Signing verification (default on)     | `finpilot-templates`                        |
-| Rechunking (optional)                 | `finpilot-ci`                               |
+| Rename (step 1)                       | `templates`, `onboarding` |
+| Enable Actions (step 2)               | `onboarding`                       |
+| Branches + promotion (step 3)         | `onboarding`, `ci`        |
+| Renovate + branch protection (step 5) | `onboarding`, `ci`        |
+| Raptor section (step 6)               | `onboarding`, `maintain`  |
+| Signing verification (default on)     | `templates`                        |
+| Rechunking (optional)                 | `ci`                               |
 
-**Cross-link requirement**: Whenever you add or remove a package, app, or service **after** initial setup, update the README raptor section and its `*Last updated*` date. This is required by the `finpilot-maintain` skill.
+**Cross-link requirement**: Whenever you add or remove a package, app, or service **after** initial setup, update the README raptor section and its `*Last updated*` date. This is required by the `maintain` skill.

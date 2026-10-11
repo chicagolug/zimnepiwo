@@ -5,9 +5,9 @@
 Task-specific instructions are Agent Skills under
 `.agents/skills/<skill-name>/SKILL.md`. Agents discover them automatically from
 their descriptions. Use the matching skill before changing behavior; for an
-unfamiliar multi-phase task, start with `finpilot-overview`, continue with the
-domain skill, and finish with `finpilot-pr-checklist`. Not sure which skill
-fits? Load `finpilot-router` — it owns the routing table. The skill index with
+unfamiliar multi-phase task, start with `overview`, continue with the
+domain skill, and finish with `pr-checklist`. Not sure which skill
+fits? Load `router` — it owns the routing table. The skill index with
 links lives in `.agents/skills/README.md`.
 
 ## Branch Strategy
