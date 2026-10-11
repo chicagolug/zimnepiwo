@@ -17,8 +17,8 @@ default:
 check:
     #!/usr/bin/bash
     find . -type f -name "*.just" | while read -r file; do
-    	echo "Checking syntax: $file"
-    	just --unstable --fmt --check -f $file
+      echo "Checking syntax: $file"
+      just --unstable --fmt --check -f $file
     done
     echo "Checking syntax: Justfile"
     just --unstable --fmt --check -f Justfile
@@ -28,8 +28,8 @@ check:
 fix:
     #!/usr/bin/bash
     find . -type f -name "*.just" | while read -r file; do
-    	echo "Checking syntax: $file"
-    	just --unstable --fmt -f $file
+      echo "Checking syntax: $file"
+      just --unstable --fmt -f $file
     done
     echo "Checking syntax: Justfile"
     just --unstable --fmt -f Justfile || { exit 1; }
@@ -100,7 +100,7 @@ build $target_image=IMAGE_NAME $tag=DEFAULT_TAG:
         exit 1
     fi
 
-    # Bluefin-style version string: <fedora-version>.<date> for stable,
+    # Version string format: <fedora-version>.<date> for stable,
     # <tag>-<fedora-version>.<date> for everything else.
     if [[ "${tag}" =~ stable ]]; then
         ver="${fedora_version}.$(date +%Y%m%d)"
