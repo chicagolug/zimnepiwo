@@ -11,3 +11,8 @@
 # cask "font-ubuntu-nerd-font"
 # cask "font-source-code-pro"
 # cask "font-cascadia-code-nerd-font"
+
+# Ported from reference/ansible-silverblue layered packages
+cask "font-fira-code"
+cask "font-roboto-mono"
+cask "font-source-code-pro"
