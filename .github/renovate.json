@@ -53,6 +53,11 @@
       "matchDepNames": ["quay.io/fedora-ostree-desktops/silverblue"],
       "matchUpdateTypes": ["major"],
       "enabled": false
+    },
+    {
+      "description": "Ignore abandonment threshold for pre-commit hooks",
+      "matchDepNames": ["pre-commit/pre-commit-hooks"],
+      "abandonmentThreshold": null
     }
   ]
 }
