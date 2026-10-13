@@ -177,6 +177,24 @@ The self-hosted Renovate runner requires a `RENOVATE_TOKEN` (the approved
 so a missing or expired token fails the workflow **before** running Renovate —
 not midway through.
 
+## Renovate Abandoned Dependencies
+
+Renovate's `config:best-practices` preset includes `abandonments:recommended`,
+which defaults `abandonmentThreshold` to 1 year and flags inactive dependencies
+under "Abandoned Dependencies" on the Dependency Dashboard.
+
+To exempt false positives (e.g., stable tools or hooks with infrequent releases
+like `pre-commit/pre-commit-hooks`), add a package rule setting
+`abandonmentThreshold` to `null`:
+
+```json
+{
+  "description": "Ignore abandonment threshold for pre-commit hooks",
+  "matchDepNames": ["pre-commit/pre-commit-hooks"],
+  "abandonmentThreshold": null
+}
+```
+
 ## hadolint Config (.hadolint.yaml)
 
 Suppressions are documented with reasons:
