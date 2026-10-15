@@ -57,7 +57,17 @@ description: >-
   so they never collide with production `stable-daily*` aliases.
 - The release gate verifies cosign signatures on `:testing`; the `Sign and
   publish` step in `build-image.yml` provides them, and unsigned images report
-  `release/blocked`.
+  `release/blocked`. For organization-owned repositories, ensure the GHCR
+  container package is set to **Public** (requires enabling Public package
+  creation under `https://github.com/organizations/<org>/settings/packages`),
+  because `cosign verify` in `reusable-release-gate.yml` does not read
+  `skopeo login`'s `containers/auth.json` and will fail with HTTP 401 against a
+  private package.
+- `promote-main-to-stable.yml` sets `enqueue_promotion: false` and
+  `auto_merge: false` so promotion PRs are merged manually by a human (allowing
+  downstream `on: push` workflows on `stable` to trigger), while running its own
+  `repair-promotion-branch`, `unblock-promotion-checks`, and `gate`
+  (`reusable-release-gate.yml`) jobs.
 
 ## Composite Action Pins
 
