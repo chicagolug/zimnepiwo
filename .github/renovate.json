@@ -55,6 +55,13 @@
       "enabled": false
     },
     {
+      "description": "Keep PR validation on Ubuntu 24.04 for the factory shellcheck package",
+      "matchFileNames": [".github/workflows/pr-validation.yml"],
+      "matchDepNames": ["ubuntu"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
       "description": "Ignore abandonment threshold for pre-commit hooks",
       "matchDepNames": ["pre-commit/pre-commit-hooks"],
       "abandonmentThreshold": null
