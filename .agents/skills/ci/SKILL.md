@@ -88,7 +88,9 @@ The SHA comment (`# v1`) is for human readability only — Renovate ignores it.
 `ubuntu-24.04` rather than `ubuntu-latest`; when latest moved to 26.04, apt
 failed with `Version '0.9.0-1' for 'shellcheck' was not found`, blocking every
 PR before validation. Check the pinned factory action before moving this
-workflow to a newer Ubuntu release.
+workflow to a newer Ubuntu release. The `matchFileNames`-scoped Ubuntu major-update
+rule in `.github/renovate.json` keeps Renovate from reopening that move as an
+automated PR; review the factory action before removing the rule and runner pin.
 
 ## Reusable Workflow Permissions
 
