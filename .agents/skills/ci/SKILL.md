@@ -81,6 +81,15 @@ uses: projectbluefin/actions/bootc-build/setup-runner@<sha> # v1
 
 The SHA comment (`# v1`) is for human readability only — Renovate ignores it.
 
+## Runner Compatibility
+
+`projectbluefin/actions/bootc-build/validate-pr` currently installs
+`shellcheck=0.9.0-1`, the Ubuntu 24.04 package. Keep `pr-validation.yml` on
+`ubuntu-24.04` rather than `ubuntu-latest`; when latest moved to 26.04, apt
+failed with `Version '0.9.0-1' for 'shellcheck' was not found`, blocking every
+PR before validation. Check the pinned factory action before moving this
+workflow to a newer Ubuntu release.
+
 ## Reusable Workflow Permissions
 
 A caller's `permissions:` block is a **ceiling** for every nested job in a reusable
