@@ -108,10 +108,10 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
 ### /opt
 ## Makes /opt writeable by default. Needs to be here to make the main image
 ## build strict (no /opt there). This is for downstream images/stuff like k0s.
-## If you need /opt as an immutable real directory for build-time packages
-## (e.g. google-chrome, docker-desktop), replace the next line with:
-##   RUN rm /opt && mkdir /opt
-RUN rm -rf /opt && ln -s /var/opt /opt
+## /opt is needed as an immutable real directory for build-time packages
+## (e.g. google-chrome, docker-desktop). We are not using the (stock) line below:
+## RUN rm -rf /opt && ln -s /var/opt /opt
+RUN rm /opt && mkdir /opt
 
 ### INIT
 ## Required for bootc images
