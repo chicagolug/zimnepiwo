@@ -32,3 +32,6 @@ Branch=stable
 
 [Flatpak Preinstall us.zoom.Zoom]
 Branch=stable
+
+[Flatpak Preinstall com.bitwarden.desktop]
+Branch=stable
