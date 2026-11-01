@@ -3,7 +3,6 @@
 ###############################################################################
 # Name: zimnepiwo
 #
-# IMPORTANT: Change "finpilot" above to your desired project name.
 # This name should be used consistently throughout the repository in:
 #   - Justfile: export IMAGE_NAME := env("IMAGE_NAME", "your-name-here")
 #   - README.md: # your-name-here (title)
@@ -18,8 +17,7 @@
 ###############################################################################
 # MULTI-STAGE BUILD ARCHITECTURE
 ###############################################################################
-# This Containerfile follows the Bluefin architecture pattern as implemented in
-# @projectbluefin/distroless. The architecture layers OCI containers together:
+# This architecture layers OCI containers together:
 #
 # 1. Context Stage (ctx) - Combines resources from:
 #    - Local build scripts and custom files
@@ -88,6 +86,22 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=tmpfs,dst=/boot \
     --mount=type=tmpfs,dst=/tmp \
     /ctx/build/10-build.sh
+
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=cache,dst=/var/cache/libdnf5 \
+    --mount=type=cache,dst=/var/cache/rpm-ostree \
+    --mount=type=secret,id=GITHUB_TOKEN \
+    --mount=type=tmpfs,dst=/boot \
+    --mount=type=tmpfs,dst=/tmp \
+    /ctx/build/20-bitwarden.sh
+
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=cache,dst=/var/cache/libdnf5 \
+    --mount=type=cache,dst=/var/cache/rpm-ostree \
+    --mount=type=secret,id=GITHUB_TOKEN \
+    --mount=type=tmpfs,dst=/boot \
+    --mount=type=tmpfs,dst=/tmp \
+    /ctx/build/20-onepassword.sh
 
 ### CLEANUP
 ## Use Bluefin's clean-stage.sh to remove build artifacts before linting.

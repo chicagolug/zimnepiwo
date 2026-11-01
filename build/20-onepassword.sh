@@ -14,33 +14,12 @@ set -euo pipefail
 # 2. Add an explicit RUN block for /ctx/build/20-onepassword.sh after
 #    10-build.sh in Containerfile. See build/README.md for the standard block.
 #
-# IMPORTANT CONVENTIONS (from @ublue-os/bluefin):
+# IMPORTANT CONVENTIONS:
 # - Always clean up temporary repository files after installation
 # - Use dnf5 exclusively (never dnf or yum)
 # - Always use -y flag for non-interactive operations
 # - Remove repo files to keep the image clean (repos don't work at runtime)
 ###############################################################################
-
-### Install Google Chrome from Official Repository
-echo "Installing Google Chrome..."
-
-# Add Google Chrome RPM repository
-cat >/etc/yum.repos.d/google-chrome.repo <<'EOF'
-[google-chrome]
-name=google-chrome
-baseurl=https://dl.google.com/linux/chrome/rpm/stable/x86_64
-enabled=1
-gpgcheck=1
-gpgkey=https://dl.google.com/linux/linux_signing_key.pub
-EOF
-
-# Install Chrome
-dnf5 install -y google-chrome-stable
-
-# Clean up repo file (required - repos don't work at runtime in bootc images)
-rm -f /etc/yum.repos.d/google-chrome.repo
-
-echo "Google Chrome installed successfully"
 
 ### Install 1Password from Official Repository
 echo "Installing 1Password..."
@@ -65,5 +44,4 @@ dnf5 install -y 1password
 # Clean up repo file (required - repos don't work at runtime in bootc images)
 rm -f /etc/yum.repos.d/1password.repo
 
-echo "1Password installed successfully"
-echo "Chrome and 1Password installation complete!"
+echo "1Password installation completed successfully!"
