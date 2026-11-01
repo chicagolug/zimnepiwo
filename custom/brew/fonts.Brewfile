@@ -1,18 +1,12 @@
 # Brewfile for fonts
-# Uncomment fonts you want to install
-
-# Popular coding fonts
+#
+# NOTE: fonts on this Linux image ship baked in at build time via dnf5
+# (see build/10-build.sh: adobe-source-code-pro-fonts, fira-code-fonts,
+# google-roboto-mono-fonts, jetbrains-mono-fonts). Homebrew `cask` entries
+# are macOS-only and can never install on Linux, so this file intentionally
+# contains no active entries. `ujust install-fonts` is a no-op for compat.
+#
+# macOS reference (do NOT uncomment on Linux):
 # cask "font-fira-code-nerd-font"
 # cask "font-jetbrains-mono-nerd-font"
-# cask "font-meslo-lg-nerd-font"
 # cask "font-hack-nerd-font"
-
-# Additional font options (uncomment to install)
-# cask "font-ubuntu-nerd-font"
-# cask "font-source-code-pro"
-# cask "font-cascadia-code-nerd-font"
-
-# Ported from reference/ansible-silverblue layered packages
-cask "font-fira-code"
-cask "font-roboto-mono"
-cask "font-source-code-pro"

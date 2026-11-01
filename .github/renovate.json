@@ -4,7 +4,7 @@
   "prHourlyLimit": 10,
   "prConcurrentLimit": 20,
   "recreateWhen": "always",
-  "rebaseWhen": "auto",
+  "rebaseWhen": "behind-base-branch",
   "customManagers": [
     {
       "customType": "regex",
@@ -36,6 +36,14 @@
     {
       "description": "Keep the shared projectbluefin actions channel fresh",
       "matchPackageNames": ["projectbluefin/actions"],
+      "matchUpdateTypes": ["digest", "pinDigest", "pin", "patch", "minor"],
+      "automerge": true,
+      "automergeType": "pr",
+      "automergeStrategy": "squash"
+    },
+    {
+      "description": "Automerge renovate action updates",
+      "matchPackageNames": ["renovatebot/github-action"],
       "matchUpdateTypes": ["digest", "pinDigest", "pin", "patch", "minor"],
       "automerge": true,
       "automergeType": "pr",
