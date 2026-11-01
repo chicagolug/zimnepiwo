@@ -40,7 +40,7 @@ WORKDIR="$(mktemp -d)"
 trap 'rm -rf "${WORKDIR}"' EXIT
 
 CURL_AUTH_ARGS=()
-if [[ -f /run/secrets/GITHUB_TOKEN ]]; then
+if [[ -s /run/secrets/GITHUB_TOKEN ]]; then
 	CURL_AUTH_ARGS=(-H "Authorization: Bearer $(cat /run/secrets/GITHUB_TOKEN)")
 fi
 
@@ -52,7 +52,7 @@ echo "Installing Bitwarden Desktop..."
 API_URL="https://api.github.com/repos/bitwarden/desktop/releases/latest"
 
 echo "Resolving latest Bitwarden Desktop release from ${API_URL} ..."
-curl -fsSL "${CURL_AUTH_ARGS[@]:-}" "${API_URL}" -o "${WORKDIR}/release.json"
+curl -fsSL "${CURL_AUTH_ARGS[@]}" "${API_URL}" -o "${WORKDIR}/release.json"
 
 # Prefer python3 (always in base) over jq (not guaranteed in build container).
 RPM_URL="$(python3 -c "
@@ -116,7 +116,7 @@ echo "Installing Bitwarden CLI..."
 CLI_API_URL="https://api.github.com/repos/bitwarden/cli/releases/latest"
 
 echo "Resolving latest Bitwarden CLI release from ${CLI_API_URL} ..."
-curl -fsSL "${CURL_AUTH_ARGS[@]:-}" "${CLI_API_URL}" -o "${WORKDIR}/cli-release.json"
+curl -fsSL "${CURL_AUTH_ARGS[@]}" "${CLI_API_URL}" -o "${WORKDIR}/cli-release.json"
 
 CLI_ZIP_URL="$(python3 -c "
 import json, re
