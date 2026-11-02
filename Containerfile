@@ -49,7 +49,7 @@ COPY --from=brew /system_files /oci/brew
 
 # Base Image - GNOME included (Fedora official OSTree desktop)
 # Renovate will keep the digest pin up to date.
-FROM quay.io/fedora-ostree-desktops/silverblue:44@sha256:4478aa2f415cc421ab7a6cc1db40240dc368c94a4471dee30a987ca5527ce714
+FROM quay.io/fedora-ostree-desktops/silverblue:44@sha256:d9a732edd004ab97a110b00fc533fd589a575e05f1bd19403ebccbc587626ae0
 
 # Image identity - these define how bootc, fastfetch, and the ublue ecosystem
 # recognize your image. Change these to match your project name.
@@ -108,10 +108,10 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
 ### /opt
 ## Makes /opt writeable by default. Needs to be here to make the main image
 ## build strict (no /opt there). This is for downstream images/stuff like k0s.
-## If you need /opt as an immutable real directory for build-time packages
-## (e.g. google-chrome, docker-desktop), replace the next line with:
-##   RUN rm /opt && mkdir /opt
-RUN rm -rf /opt && ln -s /var/opt /opt
+## /opt is needed as an immutable real directory for build-time packages
+## (e.g. google-chrome, docker-desktop). We are not using the (stock) line below:
+## RUN rm -rf /opt && ln -s /var/opt /opt
+RUN rm /opt && mkdir /opt
 
 ### INIT
 ## Required for bootc images
