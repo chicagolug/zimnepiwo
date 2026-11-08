@@ -37,6 +37,8 @@ description: >-
 | Fix CI or Renovate                              | `ci` / `maintain`     |
 | Open a PR                                       | `pr-checklist`        |
 | Debug a build or deploy failure                 | `troubleshooting`     |
+| Work an issue from the agent queue              | `clanker`             |
+| Repair a failing Renovate PR                    | `clanker`, `maintain` |
 | Follow a worked example                         | `examples`            |
 | Initialize/ rename this template                | `templates`           |
 | Orient to repo architecture                     | `overview`            |
