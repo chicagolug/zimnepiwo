@@ -24,7 +24,7 @@ jobs:
 
       - name: Validate
         # yamllint disable-line rule:line-length
-        uses: projectbluefin/actions/bootc-build/validate-pr@cbf1ce09363db6a09bfaae16fde95c7b8c2874bf # v1
+        uses: projectbluefin/actions/bootc-build/validate-pr@6453818f6279a2f2c1282919aad0009a88c01819 # v1
         with:
           shellcheck-glob: "build/*.sh"
           dockerfile: "Containerfile"
