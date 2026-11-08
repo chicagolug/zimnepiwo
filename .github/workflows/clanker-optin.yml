@@ -1,0 +1,69 @@
+---
+name: Clanker opt-in
+# Mirrors the "Opt in to a clanker working on my issue" checkbox from the issue
+# forms into the `agent-opt-in` label. The checkbox is the only machine-readable
+# record of the reporter's consent, and label state is what an agent harness can
+# query with `gh issue list --json labels`. Without this, consent lives only in
+# the issue body and every consumer has to re-parse markdown prose.
+#
+# This workflow does NOT grant work: `3-clanker-queue` is applied by a human
+# after triage. Consent and scope are two separate gates.
+
+on:
+  issues:
+    types: [opened, edited]
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.issue.number }}
+  cancel-in-progress: true
+
+jobs:
+  sync-opt-in:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Mirror the checkbox into the agent-opt-in label
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          ISSUE: ${{ github.event.issue.number }}
+        run: |
+          set -euo pipefail
+
+          body="$(gh issue view "$ISSUE" --json body --jq '.body')"
+
+          # Issue forms store a checked box as "- [X]"; accept either case and
+          # tolerate leading whitespace. Split across two patterns so neither
+          # line trips yamllint's line-length rule.
+          box_re='^[[:space:]]*-[[:space:]]*\[[xX]\]'
+          prompt_re='[[:space:]]*Opt in to a clanker'
+
+          opted_in=false
+          if printf '%s\n' "$body" | grep -qiE "${box_re}${prompt_re}"; then
+            opted_in=true
+          fi
+
+          labels="$(
+            gh issue view "$ISSUE" --json labels \
+              --jq '[.labels[].name] | join(" ")'
+          )"
+          labelled=false
+          if grep -qw 'agent-opt-in' <<<"$labels"; then
+            labelled=true
+          fi
+
+          if [[ "$opted_in" == true && "$labelled" == false ]]; then
+            gh issue edit "$ISSUE" --add-label agent-opt-in
+            echo "Opted in: added agent-opt-in to #$ISSUE"
+          elif [[ "$opted_in" == false && "$labelled" == true ]]; then
+            gh issue edit "$ISSUE" --remove-label agent-opt-in
+            echo "Opt-in withdrawn: removed agent-opt-in from #$ISSUE"
+          else
+            echo "No change for #$ISSUE" \
+              "(opted_in=$opted_in, labelled=$labelled)"
+          fi

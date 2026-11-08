@@ -118,9 +118,12 @@ Assisted-by: [Model Name] via [Tool Name]
 Use the shared lifecycle and labels in
 [`projectbluefin/common/docs/skills/label-workflow.md`](https://github.com/projectbluefin/common/blob/main/docs/skills/label-workflow.md).
 Humans triage and approve; agents work only on assigned or
-`3-clanker-queue` issues. Clankers is authenticated Hive transport only, not
-merge authority. Keep template-specific ownership local and never write to
-`ublue-os/*`.
+`3-clanker-queue` issues. Consent is tracked separately from scope: the issue
+forms' "Opt in to a clanker" checkbox is mirrored into `agent-opt-in` by
+`.github/workflows/clanker-optin.yml`, and an agent needs **both** labels before
+it starts. The queue runbook is `.agents/skills/clanker/SKILL.md`. Clankers is
+authenticated Hive transport only, not merge authority. Keep template-specific
+ownership local and never write to `ublue-os/*`.
 
 ## Self-Improvement
 
@@ -138,6 +141,6 @@ Before marking work done:
 - [ ] Updated or created the relevant skill file?
 - [ ] Included that learning in this PR?
 
-**Last Updated**: 2026-08-21
+**Last Updated**: 2026-11-07
 **Template Version**: finpilot (Agent UX Overhaul)
 **Maintainer**: Universal Blue Community
