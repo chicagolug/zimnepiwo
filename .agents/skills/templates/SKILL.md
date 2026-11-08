@@ -65,6 +65,12 @@ The image name `zimnepiwo` lives in exactly these locations; change all of them 
 
 Missing any of these causes the image to be published or cleaned up under the wrong name.
 
+`docs/skills/*.md` are **symlinks** into `.agents/skills/<name>/`. They hold no
+image name, so they are not a rename location — but they break whenever a skill
+directory is renamed, and the failure is silent. Each link is
+`<skill>.md -> ../../.agents/skills/<skill>/SKILL.md`; retarget it with the
+sweep in Verification, not by eye.
+
 The published GHCR name is **not** taken from these files: `build-image.yml`
 sets `IMAGE_NAME` from `github.event.repository.name`. Rename the GitHub
 repository to the image name first (check with `gh repo view --json name`),
@@ -133,6 +139,8 @@ Static-key signing (`SIGNING_SECRET`) is not supported by this template.
 - AGENTS.md referencing line numbers instead of semantic identifiers
 - `## Start here` section removed or not routing tasks to Agent Skills
 - `RENOVATE_TOKEN` not set but Renovate workflow is enabled (fails silently on first run)
+- A `docs/skills/*.md` symlink points at a directory that no longer exists (stale
+  `finpilot-*` prefix drift — every link resolves to nothing and nothing warns)
 
 ## Verification
 
@@ -141,3 +149,5 @@ Static-key signing (`SIGNING_SECRET`) is not supported by this template.
 - [ ] Signing uses keyless OIDC only (no `cosign.key`/`cosign.pub`)?
 - [ ] `AGENTS.md` uses semantic references (no line numbers)?
 - [ ] `AGENTS.md` `Last Updated` date current?
+- [ ] `docs/skills/` symlinks all resolve:
+      `cd docs/skills && for f in *; do [ -e "$f" ] || echo "BROKEN: $f -> $(readlink "$f")"; done`
