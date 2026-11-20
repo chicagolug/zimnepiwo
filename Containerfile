@@ -3,7 +3,6 @@
 ###############################################################################
 # Name: zimnepiwo
 #
-# IMPORTANT: Change "finpilot" above to your desired project name.
 # This name should be used consistently throughout the repository in:
 #   - Justfile: export IMAGE_NAME := env("IMAGE_NAME", "your-name-here")
 #   - README.md: # your-name-here (title)
@@ -18,8 +17,7 @@
 ###############################################################################
 # MULTI-STAGE BUILD ARCHITECTURE
 ###############################################################################
-# This Containerfile follows the Bluefin architecture pattern as implemented in
-# @projectbluefin/distroless. The architecture layers OCI containers together:
+# This architecture layers OCI containers together:
 #
 # 1. Context Stage (ctx) - Combines resources from:
 #    - Local build scripts and custom files
@@ -36,8 +34,8 @@
 
 # OCI context images - imported below and pinned directly in their FROM lines.
 # The base image is pinned in the FROM line below and updated by Renovate.
-FROM ghcr.io/projectbluefin/common:latest@sha256:6c174efd5328284a1c3bcd51a3401bb7fa2c6a7c88608b38f7e205f0b26ee27b AS common
-FROM ghcr.io/ublue-os/brew:latest@sha256:b3425199be750618562faad58b9944629805e0e1cac8bf60b18d6bc132a56909 AS brew
+FROM ghcr.io/projectbluefin/common:latest@sha256:6b195a605d9e4e11a8666ce0285b87361d6ad563a4ccaf5d11e1c1ca9b5421a2 AS common
+FROM ghcr.io/ublue-os/brew:latest@sha256:974ce5e4d6d5fceb6151910957515a42c0eefced4ea386fdfadb0fbad84499a5 AS brew
 
 # Context stage - combine local and imported OCI container resources
 FROM scratch AS ctx
@@ -51,7 +49,7 @@ COPY --from=brew /system_files /oci/brew
 
 # Base Image - GNOME included (Fedora official OSTree desktop)
 # Renovate will keep the digest pin up to date.
-FROM quay.io/fedora-ostree-desktops/silverblue:44@sha256:4d2bf23e865f7eca70d7d2191316001d27aa662fb5260f79b96941d2653c0a3b
+FROM quay.io/fedora-ostree-desktops/silverblue:44@sha256:d37bd206405933e8e1804af44544b51160ef3282f2fdcb06338c32d33d8874ef
 
 # Image identity - these define how bootc, fastfetch, and the ublue ecosystem
 # recognize your image. Change these to match your project name.
@@ -102,10 +100,10 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
 ### /opt
 ## Makes /opt writeable by default. Needs to be here to make the main image
 ## build strict (no /opt there). This is for downstream images/stuff like k0s.
-## If you need /opt as an immutable real directory for build-time packages
-## (e.g. google-chrome, docker-desktop), replace the next line with:
-##   RUN rm /opt && mkdir /opt
-RUN rm -rf /opt && ln -s /var/opt /opt
+## /opt is needed as an immutable real directory for build-time packages
+## (e.g. google-chrome, docker-desktop). We are not using the (stock) line below:
+## RUN rm -rf /opt && ln -s /var/opt /opt
+RUN rm /opt && mkdir /opt
 
 ### INIT
 ## Required for bootc images

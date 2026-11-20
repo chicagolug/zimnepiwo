@@ -4,7 +4,7 @@
   "prHourlyLimit": 10,
   "prConcurrentLimit": 20,
   "recreateWhen": "always",
-  "rebaseWhen": "auto",
+  "rebaseWhen": "behind-base-branch",
   "customManagers": [
     {
       "customType": "regex",
@@ -42,6 +42,14 @@
       "automergeStrategy": "squash"
     },
     {
+      "description": "Automerge renovate action updates",
+      "matchPackageNames": ["renovatebot/github-action"],
+      "matchUpdateTypes": ["digest", "pinDigest", "pin", "patch", "minor"],
+      "automerge": true,
+      "automergeType": "pr",
+      "automergeStrategy": "squash"
+    },
+    {
       "description": "Keep first-party OCI context images fresh immediately",
       "matchDepNames": ["ghcr.io/projectbluefin/common", "ghcr.io/ublue-os/brew"],
       "matchUpdateTypes": ["digest", "pinDigest", "pin"],
@@ -51,6 +59,13 @@
     {
       "description": "Do not automatically cross Fedora major releases",
       "matchDepNames": ["quay.io/fedora-ostree-desktops/silverblue"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
+      "description": "Keep PR validation on Ubuntu 24.04 for the factory shellcheck package",
+      "matchFileNames": [".github/workflows/pr-validation.yml"],
+      "matchDepNames": ["ubuntu"],
       "matchUpdateTypes": ["major"],
       "enabled": false
     },

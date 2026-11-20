@@ -18,6 +18,7 @@ file whose frontmatter tells compatible agents when to load it.
 | [`custom`](custom/SKILL.md) | Runtime layer: Brewfiles, Flatpaks, ujust, and validation. |
 | [`build`](build/SKILL.md) | Containerfile, Justfile, build scripts, image pinning, advanced topics. |
 | [`ci`](ci/SKILL.md) | GitHub Actions, Renovate, composite actions, workflow pins. |
+| [`clanker`](clanker/SKILL.md) | Issue/PR work queue: eligibility gates, worktree isolation, subagent fan-out, Renovate repair. |
 | [`maintain`](maintain/SKILL.md) | Ongoing work: Renovate PRs, README raptor updates, local test loops. |
 | [`troubleshooting`](troubleshooting/SKILL.md) | Symptom → cause → fix tables for build, CI, and runtime issues. |
 | [`pr-checklist`](pr-checklist/SKILL.md) | Pre-commit and per-change-type validation checklists. |

@@ -43,8 +43,7 @@ echo "::group:: Install Packages"
 
 # Install the default packages and verify the DNF cache is working.
 # gum is required by the default ujust recipes for interactive prompts.
-# Additional system packages ported from reference/ansible-silverblue.
-dnf5 install -y tmux gum chrony firewalld jetbrains-mono-fonts net-tools nmap python3-ansible-lint python3-psutil tailscale tig vim wireshark wireshark-cli yamllint
+dnf5 install -y adobe-source-code-pro-fonts chezmoi fira-code-fonts google-roboto-mono-fonts gum chrony firewalld jetbrains-mono-fonts net-tools nmap python3-ansible-lint python3-psutil tailscale tig tmux vim wireshark wireshark-cli yamllint
 
 # Example using COPR with isolated pattern:
 # copr_install_isolated "ublue-os/staging" package-name

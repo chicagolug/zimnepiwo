@@ -1,0 +1,1 @@
+../../.agents/skills/templates/SKILL.md
