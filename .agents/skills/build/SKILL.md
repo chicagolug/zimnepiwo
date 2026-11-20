@@ -67,6 +67,16 @@ release, update both the `FEDORA_MAJOR_VERSION` ARG and the base image tag.
 - Always use `dnf5 install -y` (non-interactive)
 - COPR: enable → install → `copr_install_isolated` (auto-disables); never leave a repo enabled
 
+### RUN block ordering and `/opt`
+
+Mounted `RUN` blocks execute in file order. A package that installs into `/opt`
+(e.g. Google Chrome, docker-desktop, 1Password) must run **after** the `/opt`
+normalisation `RUN rm /opt && mkdir /opt`. While `/opt` is still the Fedora
+symlink to `/var/opt`, rpm/cpio fails with `cpio: mkdir failed - File exists`
+followed by `Unpack error`, and the whole build dies at that layer. An
+`/opt`-installing script placed above that line, with the fix below it, keeps
+failing forever — check ordering before adding such a package.
+
 ### NVIDIA GPU support
 
 NVIDIA is a build-time option activated from `build/40-nvidia.sh.example`.

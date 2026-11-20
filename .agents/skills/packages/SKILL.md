@@ -92,7 +92,7 @@ copr_install_isolated "ublue-os/staging" package-name
 
 ## Third-Party Repos: `build/20-*.sh`
 
-For Google Chrome, 1Password, VS Code, etc. Follow the example scripts.
+For Google Chrome, VS Code, etc. Follow the isolated-install pattern below.
 
 **Pattern:**
 
@@ -101,7 +101,8 @@ For Google Chrome, 1Password, VS Code, etc. Follow the example scripts.
 3. `dnf5 install -y` the package(s)
 4. **CRITICAL**: Remove the repo file at end of script
 
-See `build/20-onepassword.sh.example` for a complete working example.
+Script numbering, file placement, and the Containerfile `RUN` block:
+`build` skill and `build/README.md`.
 
 ## Runtime Brew: `custom/brew/*.Brewfile`
 

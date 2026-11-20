@@ -4,21 +4,19 @@ This directory contains build scripts used during image creation. The default Co
 
 ## How It Works
 
-Scripts are named with a number prefix (e.g., `10-build.sh`, `20-onepassword.sh`) and run in ascending order during the container build process.
+Scripts are named with a number prefix (e.g., `10-build.sh`, `20-example.sh`) and run in ascending order during the container build process.
 
 ## Included Scripts
 
+- **`00-image-info.sh`** - Writes image metadata (`image-info.json`) and customises `os-release`
 - **`10-build.sh`** - Main build script for base system modifications, package installation, and service configuration
+- **`clean-stage.sh`** - Always runs last: reverts `keepcache`, disables the Fedora flatpak repo, clears build artefacts
+- **`copr-helpers.sh`** - Sourced helper (`copr_install_isolated`) for enabling and disabling COPRs around an install
 
-## Example Scripts
+## Adding a Script
 
-- **`20-onepassword.sh.example`** - Example showing how to install software from third-party RPM repositories (Google Chrome, 1Password)
-- **`30-cosmic-desktop.sh.example`** - Example showing how to replace the GNOME desktop with COSMIC desktop
-- **`40-nvidia.sh.example`** - Example showing how to add NVIDIA drivers and CDI container support
-
-To use an example script:
-1. Rename it to remove the `.example` extension (for example, `mv build/20-onepassword.sh.example build/20-onepassword.sh`).
-2. Add the standard `RUN` block below after the `10-build.sh` block in `Containerfile`, replacing `NN-example.sh` with the renamed script.
+1. Create `build/NN-descriptive-name.sh` and make it executable.
+2. Add the standard `RUN` block below after the `10-build.sh` block in `Containerfile`, replacing `NN-example.sh` with the new script name.
 3. Run `just build`.
 
 ```dockerfile
